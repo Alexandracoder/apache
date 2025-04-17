@@ -1,30 +1,15 @@
 FROM ubuntu:latest
-RUN apt-get update && apt-get upgrade -y 
-RUN apt-get install -y apache2 libapache2-mod-php php-cli php-fpm php-mysql php-pgsql php-xml php-zip php-gd php-intl php-curl php-mbstring php-bcmath php-soap php-xmlrpc php-xsl php-imagick imagemagick ghostscript libzip-dev libpng-dev libjpeg-dev libwebp-dev libxpm-dev libfreetype6-dev libxml2-dev libxslt1-dev oniguruma-dev icu-dev postgresql-client mysql-client git zip
-RUN a2enmod rewrite\
-    libzip-dev \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    libwebp-dev \
-    libxpm-dev \
-    freetype-dev \
-    imagemagick-dev \
-    ghostscript-dev \
-    libxml2-dev \
-    libxslt-dev \
-    oniguruma-dev \
-    icu-dev \
-    postgresql-client \
-    mysql-client \
-    curl-dev \
-    git \
-    zip
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-xpm
-WORKDIR /var/www/html
-RUN docker-php-ext-install gd zip mysqli pdo pdo_mysql pdo_pgsql xml xsl intl opcache
+
+RUN apt-get update && apt-get install -y apache2 php libapache2-mod-php
+
+RUN a2enmod rewrite
+
+
 COPY ./var/www/html /var/www/html
-COPY ./var/www/html /app
-USER www-data
 RUN chown -R www-data:www-data /var/www/html
+
+# Exponer el puerto 80
 EXPOSE 80
-CMD ["APACHE", "-D", "FOREGROUND"] 
+
+# Iniciar Apache
+CMD ["apachectl", "-D", "FOREGROUND"]
