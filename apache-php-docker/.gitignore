@@ -1,0 +1,12 @@
+# Archivos y carpetas de Docker
+db_data/
+.env
+*.log
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Editor config
+.vscode/
+.idea/
