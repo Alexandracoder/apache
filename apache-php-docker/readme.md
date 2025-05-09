@@ -9,5 +9,6 @@ Este proyecto contiene un entorno Docker con Apache, PHP y MySQL, desarrollado c
  🐳 Cómo levantar el entorno
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tuusuario/tu-repo.git
-   cd tu-repo
+   git clone https://github.com/Alexandracoder/apache.git
+ cd ~/apache
+
