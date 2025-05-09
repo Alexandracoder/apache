@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE =apache-php-docker
+        DOCKER_IMAGE ='apache-php-docker'
         TAG = "${BUILD_NUMBER}"
         CONTAINER_NAME = "test_apache_container"
     }
@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git credentialsId: 'github-token', url: 'https://github.com/Alexandracoder/apache.git'
-
+            }
         }
 
         stage('Docker Build') {
