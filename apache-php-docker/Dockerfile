@@ -1,7 +1,12 @@
 FROM ubuntu:20.04
 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
 RUN apt-get update && \
-    apt-get install -y apache2 php libapache2-mod-php && \
+    apt-get install -y tzdata apache2 php libapache2-mod-php && \
+    ln -fs /usr/share/zoneinfo/$TZ /etc/localtime && \
+    dpkg-reconfigure --frontend noninteractive tzdata && \
     apt-get clean
 
 # Copiar el archivo index.html desde apache-php-docker al contenedor
