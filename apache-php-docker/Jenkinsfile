@@ -27,11 +27,11 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container on port 8080
-                    sh "docker run -d --rm --name ${CONTAINER_NAME} -p 8080:80 ${DOCKER_IMAGE}:${TAG}"
+                    sh "docker run -d --rm --name ${CONTAINER_NAME} -p 8080:81 ${DOCKER_IMAGE}:${TAG}"
                     // Wait for 5 seconds to ensure the container starts
                     sh "sleep 5"
                     // Test the Docker container with curl
-                    sh "curl -f http://localhost:8080"
+                    sh "curl -f http://localhost:8081"
                     // Stop the container after testing
                     sh "docker stop ${CONTAINER_NAME}"
                 }
