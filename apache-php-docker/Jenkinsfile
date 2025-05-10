@@ -17,7 +17,8 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                  docker build -t alexandracoder/apache-php-docker:16 -f apache-php-docker/Dockerfile .
+                 docker build -t alexandracoder/apache-php-docker:16-f path/to apache-php-docker/Dockerfile.
+
 
                 }
             }
