@@ -17,9 +17,8 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                 docker build -t alexandracoder/apache-php-docker:16-f path/to apache-php-docker/Dockerfile.
-
-
+                    // Asegúrate de que la ruta al Dockerfile sea correcta
+                    sh "docker build -t ${DOCKER_IMAGE}:${TAG} -f apache-php-docker/Dockerfile ."
                 }
             }
         }
