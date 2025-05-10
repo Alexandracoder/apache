@@ -1,82 +1,10 @@
 pipeline {
     agent any
-
-    environment {
-        // Nombre de la imagen de Docker
-        DOCKER_IMAGE = "apache-php-docker"  
-        
-        // Tag de la imagen basado en el número de build de Jenkins
-        TAG = "${BUILD_NUMBER}"             
-
-        // Nombre del contenedor
-        CONTAINER_NAME = "apache_php_app"    
-
-        // Nombre de usuario de DockerHub (reemplazar por tu propio usuario de DockerHub)
-        DOCKERHUB_USER = "alexandracoder"   
-
-        // Credenciales de DockerHub almacenadas en Jenkins
-        DOCKERHUB_CREDENTIALS = 'dockerhub-creds-id'  
-
-        // Credenciales de GitHub almacenadas en Jenkins
-        GITHUB_CREDENTIALS = 'github-token'  
-    }
-
-    stages {
-        stage('Checkout') {
+stages {
+        stage('Hello') {
             steps {
-                // Clonar el repositorio de GitHub
-                git credentialsId: "${GITHUB_CREDENTIALS}", url: 'https://github.com/Alexandracoder/apache.git'
-            }
-        }
-
-        stage('Docker Build') {
-            steps {
-                script {
-                    // Construir la imagen de Docker con un tag único basado en el número de build
-                    sh "docker build -t ${DOCKER_IMAGE}:${TAG} ."
+                    echo 'Hello, World!' This is my first Jenkins pipeline script.! 
                 }
             }
-        }
-
-        stage('Test Docker Image') {
-            steps {
-                script {
-                    // Ejecutar el contenedor en segundo plano
-                    sh "docker run -d --rm --name ${CONTAINER_NAME} -p 8080:8080 ${DOCKER_IMAGE}:${TAG}"
-                    
-                    // Esperar unos segundos para asegurarse de que Apache se haya levantado
-                    sh "sleep 5"
-
-                    // Hacer una prueba de que el servidor está respondiendo correctamente
-                    sh "curl -f http://localhost:8080"
-
-                    // Detener el contenedor después de la prueba
-                    sh "docker stop ${CONTAINER_NAME}"
                 }
             }
-        }
-
-        stage('Tag Docker Image') {
-            steps {
-                script {
-                    // Etiquetar la imagen con el tag 'latest'
-                    sh "docker tag ${DOCKER_IMAGE}:${TAG} ${DOCKER_IMAGE}:latest"
-                }
-            }
-        }
-
-        stage('Push to DockerHub') {
-            steps {
-                script {
-                    // Iniciar sesión en DockerHub con las credenciales proporcionadas
-                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDENTIALS}") {
-                        // Empujar la imagen a DockerHub con el tag específico
-                        sh "docker push ${DOCKERHUB_USER}/${DOCKER_IMAGE}:${TAG}"
-                        // Empujar también la versión 'latest' a DockerHub
-                        sh "docker push ${DOCKERHUB_USER}/${DOCKER_IMAGE}:latest"
-                    }
-                }
-            }
-        }
-    }
-}
