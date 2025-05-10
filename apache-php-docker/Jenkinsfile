@@ -66,4 +66,19 @@ pipeline {
         }
 
         stage('Cleanup') {
-            steps
+            steps {
+                script {
+                    echo "🧹 Cleaning up old Docker images..."
+                    // Optional cleanup of old Docker images
+                    sh "docker image prune -f"
+                }
+            }
+        }
+    }
+
+    post {
+        failure {
+            echo "❌ The pipeline failed. Please check the logs."
+        }
+    }
+}
