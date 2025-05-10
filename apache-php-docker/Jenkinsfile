@@ -26,9 +26,10 @@ pipeline {
         stage('Test Docker Image') {
             steps {
                 script {
-                    sh "docker run -d --rm --name ${CONTAINER_NAME} -p 8080:80 ${DOCKER_IMAGE}:${TAG}"
+                   docker run -d --rm --name test_apache_container -p 8081:80 ${DOCKER_IMAGE}:${TAG}
+
                     sh "sleep 5"
-                    sh "curl -f http://localhost:8080"
+                    sh "curl -f http://localhost:8081"
                     sh "docker stop ${CONTAINER_NAME}"
                 }
             }
