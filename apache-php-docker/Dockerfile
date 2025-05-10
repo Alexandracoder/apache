@@ -15,7 +15,7 @@ COPY apache-php-docker/index.html /var/www/html/
 EXPOSE 8080
 
 # Cambiar la configuración de Apache para usar el puerto 8080
-RUN sed -i 's/80/8080/g' /etc/apache2/ports.conf && \
-    sed -i 's/80/8080/g' /etc/apache2/sites-available/000-default.conf
+RUN sed -i 's/81/8080/g' /etc/apache2/ports.conf && \
+    sed -i 's/81/8080/g' /etc/apache2/sites-available/000-default.conf
 
 CMD ["apachectl", "-D", "FOREGROUND"]
