@@ -26,11 +26,11 @@ pipeline {
         stage('Test Docker Image') {
             steps {
                 script {
-                    // Run the Docker container on port 8080
-                    sh "docker run -d --rm --name ${CONTAINER_NAME} -p 8080:81 ${DOCKER_IMAGE}:${TAG}"
+                    // Run the Docker container on port 8081 instead of 8080
+                    sh "docker run -d --rm --name ${CONTAINER_NAME} -p 8081:81 ${DOCKER_IMAGE}:${TAG}"
                     // Wait for 5 seconds to ensure the container starts
                     sh "sleep 5"
-                    // Test the Docker container with curl
+                    // Test the Docker container with curl on port 8081
                     sh "curl -f http://localhost:8081"
                     // Stop the container after testing
                     sh "docker stop ${CONTAINER_NAME}"
@@ -66,19 +66,4 @@ pipeline {
         }
 
         stage('Cleanup') {
-            steps {
-                script {
-                    echo "🧹 Cleaning up old Docker images..."
-                    // Optional cleanup of old Docker images
-                    sh "docker image prune -f"
-                }
-            }
-        }
-    }
-
-    post {
-        failure {
-            echo "❌ The pipeline failed. Please check the logs."
-        }
-    }
-}
+            steps
