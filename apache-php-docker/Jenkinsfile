@@ -12,7 +12,6 @@ pipeline {
             steps {
                 git credentialsId: 'github-token', url: 'https://github.com/Alexandracoder/apache.git', branch: 'main'
             }
-            }
         }
 
         stage('Docker Build') {
